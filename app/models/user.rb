@@ -16,7 +16,13 @@ class User < ApplicationRecord
   has_many :invitations_i_sent, foreign_key: :inviter_id, class_name: 'Friendship'
   has_many :who_i_invited, through: :invitations_i_sent, source: :invitee
 
-  def approve_requests(user)
+  def requests_for_friendship(user)
+    return false if who_i_invited.include?(user) || who_invited_me.include?(user)
+
+    who_i_invited << user
+  end
+
+  def approve_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
     friend_to_be.accepted = true
     friend_to_be.save
@@ -27,11 +33,10 @@ class User < ApplicationRecord
     friends.concat(invitations_i_sent.map { |friendship| friendship.invitee if friendship.accepted })
     friends.compact
   end
-
-  def requests_for_friendship(user)
-    return false if who_i_invited.include?(user) || who_invited_me.include?(user)
-
-    who_i_invited << user
+  
+  # Check if we are already friends or not which means both of us were accepted each
+  def friend?(user)
+    friends.include?(user)
   end
 
   # People who haven't accepted my request yet
@@ -44,10 +49,6 @@ class User < ApplicationRecord
     invitations_i_got.map { |friendship| friendship.inviter unless friendship.accepted }
   end
 
-  # Check if we are already friends or not which means both of us were accepted each
-  def friend?(user)
-    friends.include?(user)
-  end
 
   # # User has many friendships & inverse friendships as a friend
   # has_many :friendships # as a user
