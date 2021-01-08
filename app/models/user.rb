@@ -10,42 +10,52 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  has_many :friendships
-  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  # User has many friendships & inverse friendships as a friend
+  has_many :friendships # as a user
+  has_many :inverse_friendships, class_name: 'Friendship', foreign_key: :friend_id # as a friend
 
+  # ============== NOTE START ==============
+  # What is friendship?
+  # => People who I sent requests including both accepted and not accepted yet
+
+  # What is inverse_friendship?
+  # => People who I recieve their requests including both accepted and not accepted yet
+
+  # What is friends?
+  # => People both who I accepted their requests and who accepted my requests
+  # Note: It doesn't include in case that either user doesn't accept
+  # ============== NOTE END ==============
+
+  # Define User's friends =>
+  # => People both who I accepted their requests and who accepted my requests
   def friends
-    friends_array = friendships.map { |friendship| friendship.friend if friendship.status }
-    friends_array.concat(inverse_friendships.map { |friendship| friendship.user if friendship.status })
+    # Collect the friend_ids if my request was accepted as a user
+    friends_array = friendships.map { |friendship| friendship.friend if friendship.accepted }
+    # Collect the user_ids if I accepted the other's request as a freind
+    friends_array.concat(inverse_friendships.map { |friendship| friendship.user if friendship.accepted })
+    # Exclude User myself
     friends_array.compact
   end
 
-  # Users who have yet to confirme friend requests
+  # People who haven't accpeted my request yet
   def pending_friends
-    friendships.map { |friendship| friendship.friend unless friendship.status }.compact
+    friendships.map { |friendship| friendship.friend unless friendship.accepted }.compact
   end
 
-  # Users who have requested to be friends
-  def friend_requests
-    inverse_friendships.map { |friendship| friendship.user unless friendship.status }.compact
+  # People who I haven't accepted their request yet
+  def pending_requests
+    inverse_friendships.map { |friendship| friendship.user unless friendship.accepted }.compact
   end
 
-  def confirm_friend(user)
-    friendship = inverse_friendships.find { |friend_ship| friend_ship.user == user }
-    friendship.status = true
+  # Change the status of pending_requests from false to TRUE in order to build our friendships
+  def accept_request(user)
+    friendship = inverse_friendships.find { |fs| fs.user == user }
+    friendship.accepted = true
     friendship.save
   end
 
+  # Check if we are already friends or not which means both of us were accepted each other's request
   def friend?(user)
     friends.include?(user)
   end
 end
-
-# Friendship
-# user_id   | friend_id
-# User1 ---> user2
-#       ---> user3
-
-# inverse_friendships
-# user_id   | friend_id
-# user 2 <--- user 1
-# user 3 <--- user 1
