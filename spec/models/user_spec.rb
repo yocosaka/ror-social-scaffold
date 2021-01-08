@@ -1,7 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  describe 'testing validations' do
+    let(:user1) do
+      User.new(name: 'user1asldfjalsdjflaskdjflaskdjflaskdjf', email: 'user1@gmail.com', password: '123456')
+    end
+    it 'validates length of name to be less than 20' do
+      expect(user1.valid?).to eq false
+    end
+  end
+
   describe 'testing associations' do
+    it { should have_many(:posts) }
+    it { should have_many(:comments) }
+    it { should have_many(:likes) }
+    it { should have_many(:invitations_i_got) }
+    it do
+      should have_many(:who_invited_me)
+        .through(:invitations_i_got)
+        .class_name('User')
+    end
+    it { should have_many(:invitations_i_sent) }
+    it do
+      should have_many(:who_i_invited)
+        .through(:invitations_i_sent)
+        .class_name('User')
+    end
   end
 
   describe 'testing instance methods' do
@@ -29,13 +53,13 @@ RSpec.describe User, type: :model do
     end
 
     describe '#friends' do
-      it 'returns friends' do
+      it 'returns friends of a given user' do
         user1.requests_for_friendship(user2)
         user2.approve_request(user1)
         expect(user1.friends).to include user2
       end
 
-      it 'returns friends' do
+      it 'doesnt return users that are not friends' do
         user1.requests_for_friendship(user2)
         expect(user1.friends).not_to include user2
       end
