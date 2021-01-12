@@ -1,7 +1,21 @@
 <section class="user-section">
   <h2><%= "Name: #{@user.name}" %></h2>
-
   <%= render  "users/status", user: @user %>
+
+  <% if current_user.pending_requests_i_got.any? %>
+    <div class="friend_requests">
+    <h3>Friend Requests:</h3>
+      <ul class="friend_requests__list">
+      <% current_user.pending_requests_i_got.each do |user| %>
+        <li>
+          <%= user.name %>
+          <%= render  "users/status", user: user  %>
+        </li>
+      <% end %>
+      </ul>
+
+    </div>
+  <% end %>
 
   <article class="timeline">
     <h3>Recent posts:</h3>

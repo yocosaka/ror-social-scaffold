@@ -1,7 +1,9 @@
-<% if current_user.friend?(user) %>
-  <span>Friends</span>
-<% elsif current_user.pending?(user)  %>
-  <span class="status">Pending</span>
-<% else %>
-  <%= link_to 'Invite to Friendship', friendships_path(invitee_id: user.id), method: :post, class: 'btn' %>
+<% unless current_user == user %>
+  <% if current_user.friend?(user) %>
+    <span>Friends</span>
+  <% elsif current_user.pending?(user)  %>
+    <span class="status">Pending</span>
+  <% else %>
+    <%= link_to 'Invite to Friendship', friendships_path(invitee_id: user.id), method: :post, class: 'btn' %>
+  <% end %>
 <% end %>

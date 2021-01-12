@@ -373,3 +373,11 @@ form {
   font-style: italic;
   color: $primary-color;
 }
+
+
+.friend_requests{
+  margin: 1rem 0;
+  &__list{
+    margin: 1rem 0;
+  }
+}
