@@ -2,7 +2,8 @@
   <h2><%= "Name: #{@user.name}" %></h2>
   <%= render  "users/status", user: @user %>
 
-  <% if current_user.pending_requests_i_got.any? %>
+
+  <% if current_user == @user && current_user.pending_requests_i_got.any? %>
     <div class="friend_requests">
     <h3>Friend Requests:</h3>
       <ul class="friend_requests__list">
