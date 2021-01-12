@@ -39,6 +39,9 @@ class User < ApplicationRecord
     friends.include?(user)
   end
 
+  def pending?(user)
+    pending_requests_i_sent.include?(user) || pending_requests_i_got.include?(user)
+  end
   # People who haven't accepted my request yet
   def pending_requests_i_sent
     invitations_i_sent.map { |friendship| friendship.invitee unless friendship.accepted }
