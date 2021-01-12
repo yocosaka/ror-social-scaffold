@@ -2,12 +2,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'testing validations' do
-    let(:user1) do
-      User.new(name: 'user1asldfjalsdjflaskdjflaskdjflaskdjf', email: 'user1@gmail.com', password: '123456')
-    end
-    it 'validates length of name to be less than 20' do
-      expect(user1.valid?).to eq false
-    end
+    it { should validate_presence_of(:name) }
+    it { should validate_length_of(:name).is_at_most(20) }
   end
 
   describe 'testing associations' do
