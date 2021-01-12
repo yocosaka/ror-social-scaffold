@@ -27,7 +27,7 @@ class User < ApplicationRecord
     friend_to_be.status = 'accept'
     friend_to_be.save
   end
-  
+
   def reject_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
     friend_to_be.status = 'reject'
@@ -52,7 +52,7 @@ class User < ApplicationRecord
   def pending_i_sent?(user)
     pending_requests_i_sent.include?(user)
   end
-  
+
   # People who haven't status my request yet
   def pending_requests_i_sent
     invitations_i_sent.map { |friendship| friendship.invitee if friendship.status == 'pending' }
@@ -61,5 +61,12 @@ class User < ApplicationRecord
   # People who I haven't status their request yet
   def pending_requests_i_got
     invitations_i_got.map { |friendship| friendship.inviter if friendship.status == 'pending' }
+  end
+
+  def rejected?(user)
+    invitation = invitations_i_got.find_by(inviter_id: user.id)
+    return unless invitation
+
+    invitation.status == 'reject'
   end
 end

@@ -1,13 +1,14 @@
 <% unless current_user == user %>
   <% if current_user.friend?(user) %>
-    <span>Friends</span>
+    <span class="status">Friends</span>
+  <% elsif current_user.rejected?(user) %>
+    <span class="status">Rejected</span>
   <% elsif current_user.pending_i_sent?(user)  %>
     <span class="status">Pending</span>
   <% elsif current_user.pending_i_got?(user) %>
-    <%= link_to 'Accept', friendship_path(id: find_friendship_id(user.id, current_user.id), status: 'accept'), method: :patch %>
-    <%= link_to 'Reject', friendship_path(id: find_friendship_id(user.id, current_user.id), status: 'reject'), method: :patch %>
-  <% else %>
+    <%= link_to 'Accept', friendship_path(id: find_friendship_id(user.id, current_user.id), status: 'accept'), method: :patch, class: 'btn' %>
+    <%= link_to 'Reject', friendship_path(id: find_friendship_id(user.id, current_user.id), status: 'reject'), method: :patch, class: 'btn' %>
+  <% elsif !user.rejected?(current_user) %>
     <%= link_to 'Invite to Friendship', friendships_path(invitee_id: user.id), method: :post, class: 'btn' %>
   <% end %>
 <% end %>
-
