@@ -5,7 +5,25 @@
 
 ## About the Project
 
-This project is based on ...
+This project is social media app called “Stay in touch”.
+Users can do following actions:
+
+As a guest user:
+- Create account/log in
+- See only “Sign in” and “Sign out” page
+
+As a logged-in user:
+- See all users list
+- See selected user page with their user name and all posts written by them (the most recent posts on the top)
+- Send a friendship invitation
+- See a button “Invite to friendship” next to the name of user who is not my friend yet - on both users’ list and single user page
+- See pending friendship invitations sent to me from other users
+- Accept or reject friendships invitation
+- Create new posts (text only)
+- Like/dislike posts (but I can like single post only once)
+- Add comments to posts
+- See “Timeline” page with posts (with number of likes and comments) written by me and all my friends (the most recent posts on the top)
+- Timeline page should be the root page of the app
 
 A list of commonly used resources that I find helpful is listed in the acknowledgments.
 
@@ -89,4 +107,7 @@ This project is [MIT](./LICENSE) licensed.
 
 
 ## Acknowledgements
-* [aaa](#)
+* [devise gem](https://github.com/heartcombo/devise)
+* [font-awesome-rails gem](https://github.com/bokmann/font-awesome-rails)
+* [rspec rails gem](https://github.com/rspec/rspec-rails)
+* [shoulda matchers gem](https://github.com/thoughtbot/shoulda-matchers)
