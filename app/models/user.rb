@@ -24,32 +24,42 @@ class User < ApplicationRecord
 
   def approve_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
-    friend_to_be.accepted = true
+    friend_to_be.status = 'accept'
+    friend_to_be.save
+  end
+  
+  def reject_request(user)
+    friend_to_be = invitations_i_got.where(inviter_id: user.id).first
+    friend_to_be.status = 'reject'
     friend_to_be.save
   end
 
   def friends
-    friends = invitations_i_got.map { |friendship| friendship.inviter if friendship.accepted }
-    friends.concat(invitations_i_sent.map { |friendship| friendship.invitee if friendship.accepted })
+    friends = invitations_i_got.map { |friendship| friendship.inviter if friendship.status == 'accept' }
+    friends.concat(invitations_i_sent.map { |friendship| friendship.invitee if friendship.status == 'accept' })
     friends.compact
   end
 
-  # Check if we are already friends or not which means both of us were accepted each
+  # Check if we are already friends or not which means both of us were status each
   def friend?(user)
     friends.include?(user)
   end
 
-  def pending?(user)
-    pending_requests_i_sent.include?(user) || pending_requests_i_got.include?(user)
-  end
-  
-  # People who haven't accepted my request yet
-  def pending_requests_i_sent
-    invitations_i_sent.map { |friendship| friendship.invitee unless friendship.accepted }
+  def pending_i_got?(user)
+    pending_requests_i_got.include?(user)
   end
 
-  # People who I haven't accepted their request yet
+  def pending_i_sent?(user)
+    pending_requests_i_sent.include?(user)
+  end
+  
+  # People who haven't status my request yet
+  def pending_requests_i_sent
+    invitations_i_sent.map { |friendship| friendship.invitee if friendship.status == 'pending' }
+  end
+
+  # People who I haven't status their request yet
   def pending_requests_i_got
-    invitations_i_got.map { |friendship| friendship.inviter unless friendship.accepted }
+    invitations_i_got.map { |friendship| friendship.inviter if friendship.status == 'pending' }
   end
 end
