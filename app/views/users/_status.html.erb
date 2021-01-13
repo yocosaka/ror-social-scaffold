@@ -1,8 +1,6 @@
 <% unless current_user == user %>
   <% if current_user.friend?(user) %>
     <span class="status">Friends</span>
-  <% elsif current_user.rejected?(user) %>
-    <span class="status">Rejected</span>
   <% elsif current_user.pending_i_sent?(user)  %>
     <span class="status">Pending</span>
   <% elsif current_user.pending_i_got?(user) %>
