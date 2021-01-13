@@ -7,12 +7,14 @@ class FriendshipsController < ApplicationController
   end
 
   def update
-    case params[:status]
-    when 'accept'
-      current_user.approve_request(Friendship.find(params[:id]).inviter)
-    when 'reject'
-      current_user.reject_request(Friendship.find(params[:id]).inviter)
-    end
+    current_user.approve_request(Friendship.find(params[:id]).inviter)
+
+    redirect_to users_path
+  end
+
+  def destroy
+    current_user.reject_request(Friendship.find(params[:id]).inviter)
+
     redirect_to users_path
   end
 end
