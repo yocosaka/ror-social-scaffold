@@ -20,7 +20,17 @@ class PostsController < ApplicationController
   private
 
   def timeline_posts
-    @timeline_posts ||= Post.all.ordered_by_most_recent.includes(:user)
+    target_posts = []
+    current_user.friends.each do |friend|
+      target_posts << friend.posts
+    end
+    target_posts << current_user.posts
+    @timeline_posts ||= target_posts.flatten.sort_by(&:updated_at).reverse
+
+    # SELECT content, user_id, created_at, updated_at
+    # FROM users JOIN posts on users.id == posts.user_id
+    # WHERE user.id == user_id
+    # new_table = User.joins('INNER JOIN posts ON users.id == posts.user_id')
   end
 
   def post_params

@@ -44,7 +44,7 @@ RSpec.describe User, type: :model do
       it 'approves pending request sent from a given user' do
         user1.requests_for_friendship(user2)
         user2.approve_request(user1)
-        expect(Friendship.where(inviter_id: 1, invitee_id: 2).take.accepted).to eq true
+        expect(Friendship.where(inviter_id: 1, invitee_id: 2).take.status).to eq('accept')
       end
     end
 

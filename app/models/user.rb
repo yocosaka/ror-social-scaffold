@@ -10,11 +10,11 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
 
-  has_many :invitations_i_got, foreign_key: :invitee_id, class_name: 'Friendship'
-  has_many :who_invited_me, through: :invitations_i_got, source: :inviter
+  has_many :invitations_i_got, foreign_key: :invitee_id, class_name: 'Friendship', dependent: :destroy
+  has_many :who_invited_me, through: :invitations_i_got, source: :inviter, dependent: :destroy
 
-  has_many :invitations_i_sent, foreign_key: :inviter_id, class_name: 'Friendship'
-  has_many :who_i_invited, through: :invitations_i_sent, source: :invitee
+  has_many :invitations_i_sent, foreign_key: :inviter_id, class_name: 'Friendship', dependent: :destroy
+  has_many :who_i_invited, through: :invitations_i_sent, source: :invitee, dependent: :destroy
 
   def requests_for_friendship(user)
     return false if who_i_invited.include?(user) || who_invited_me.include?(user)
