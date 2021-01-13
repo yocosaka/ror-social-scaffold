@@ -39,14 +39,18 @@ gem 'wdm', '>= 0.1.0' if Gem.win_platform?
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'devise'
+gem 'font-awesome-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'pry-rails'
+  gem 'rspec-rails', '~> 4.0.1'
 end
 
 group :test do
   gem 'rspec'
+  gem 'shoulda-matchers', '~> 4.0'
 end
 
 group :development do

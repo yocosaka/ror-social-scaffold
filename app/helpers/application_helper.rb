@@ -15,4 +15,8 @@ module ApplicationHelper
       link_to('Like!', post_likes_path(post_id: post.id), method: :post)
     end
   end
+
+  def find_friendship_id(inviter_id, invitee_id)
+    Friendship.where(inviter_id: inviter_id, invitee_id: invitee_id).take.id
+  end
 end

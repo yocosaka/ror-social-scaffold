@@ -347,3 +347,37 @@ form {
     width: 50%;
   }
 }
+
+
+// Add custom style
+
+.btn {
+  display: inline-block;
+  background-color:$primary-color-dark;
+  color: #FFF;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  margin: 1rem 0;
+  transition: all .4s;
+  font-size: 0.8rem;
+  &:hover{
+    color: $primary-color-dark;
+    background-color: #FFF;
+    border-color: $primary-color-dark;
+  }
+}
+
+
+.status{
+  font-style: italic;
+  color: $primary-color;
+}
+
+
+.friend_requests{
+  margin: 1rem 0;
+  &__list{
+    margin: 1rem 0;
+  }
+}
