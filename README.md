@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 # Social media website
-![Top Page Screenshot](./screenshot.png)
+<!-- ![Top Page Screenshot](./screenshot.png) -->
 
 ## About the Project
 
