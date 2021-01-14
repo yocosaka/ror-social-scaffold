@@ -11,21 +11,20 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_many :invitations_i_got, foreign_key: :invitee_id, class_name: 'Friendship', dependent: :destroy
-  has_many :who_invited_me, through: :invitations_i_got, source: :inviter, dependent: :destroy
+  has_many :who_invited_me, through: :invitations_i_got, source: :inviter
 
   has_many :invitations_i_sent, foreign_key: :inviter_id, class_name: 'Friendship', dependent: :destroy
-  has_many :who_i_invited, through: :invitations_i_sent, source: :invitee, dependent: :destroy
+  has_many :who_i_invited, through: :invitations_i_sent, source: :invitee
 
   def requests_for_friendship(user)
-    return false if who_i_invited.include?(user) || who_invited_me.include?(user)
+    return false if who_i_invited.include?(user) || who_invited_me.include?(user) || !user
 
     who_i_invited << user
   end
 
   def approve_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
-    friend_to_be.accepted = true
-    friend_to_be.save
+    friend_to_be.update(accepted: true)
   end
 
   def reject_request(user)
@@ -54,11 +53,11 @@ class User < ApplicationRecord
 
   # People who haven't accepted my request yet
   def pending_requests_i_sent
-    invitations_i_sent.map { |friendship| friendship.invitee unless friendship.accepted }
+    invitations_i_sent.map { |friendship| friendship.invitee unless friendship.accepted }.compact
   end
 
   # People who I haven't accepted their request yet
   def pending_requests_i_got
-    invitations_i_got.map { |friendship| friendship.inviter unless friendship.accepted }
+    invitations_i_got.map { |friendship| friendship.inviter unless friendship.accepted }.compact
   end
 end
