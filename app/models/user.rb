@@ -25,9 +25,6 @@ class User < ApplicationRecord
 
   def approve_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
-    # friend_to_be.accepted = true
-    # friend_to_be.save
-
     friend_to_be.update(accepted: true)
   end
 
@@ -37,14 +34,6 @@ class User < ApplicationRecord
   end
 
   def friends
-    # friends = invitations_i_got.map { |friendship| friendship.inviter if friendship.accepted }
-    # friends.concat(invitations_i_sent.map { |friendship| friendship.invitee if friendship.accepted })
-    # friends.compact
-
-    # SELECT * FROM users WHERE id IN (
-    #   SELECT friendships.inviter_id From friendships WHERE accepted = true    [1,2,5]
-    # )
-    # inviters_id = u2.invitations_i_got.where(accepted: true).pluck(:inviter_id)
     User.where(id: invitations_i_got.where(accepted: true).pluck(:inviter_id))
   end
 
