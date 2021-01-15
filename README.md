@@ -6,7 +6,7 @@
 ## About the Project
 
 This project is social media app called “Stay in touch”.
-Users can do following actions:
+Users can do the following actions:
 
 As a guest user:
 - Create account/log in
@@ -108,6 +108,5 @@ This project is [MIT](./LICENSE) licensed.
 
 ## Acknowledgements
 * [devise gem](https://github.com/heartcombo/devise)
-* [font-awesome-rails gem](https://github.com/bokmann/font-awesome-rails)
 * [rspec rails gem](https://github.com/rspec/rspec-rails)
 * [shoulda matchers gem](https://github.com/thoughtbot/shoulda-matchers)
