@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -24,8 +25,7 @@ class User < ApplicationRecord
 
   def approve_request(user)
     friend_to_be = invitations_i_got.where(inviter_id: user.id).first
-    friend_to_be.accepted = true
-    friend_to_be.save
+    friend_to_be.update(accepted: true)
   end
 
   def reject_request(user)
@@ -34,9 +34,7 @@ class User < ApplicationRecord
   end
 
   def friends
-    friends = invitations_i_got.map { |friendship| friendship.inviter if friendship.accepted }
-    friends.concat(invitations_i_sent.map { |friendship| friendship.invitee if friendship.accepted })
-    friends.compact
+    User.where(id: invitations_i_got.where(accepted: true).pluck(:inviter_id))
   end
 
   # Check if we are already friends or not which means both of us were accepted each
