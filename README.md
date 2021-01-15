@@ -1,7 +1,7 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 # Social media website
-<!-- ![Top Page Screenshot](./screenshot.png) -->
+![Screenshot](./screenshot.png)
 
 ## About the Project
 
@@ -51,7 +51,7 @@ A list of commonly used resources that I find helpful is listed in the acknowled
 
 ## Live Demo
 
-[Live Demo Link](#)
+[Live Demo Link](https://mv-ror-social-media.herokuapp.com/)
 
 
 ## Getting Started
