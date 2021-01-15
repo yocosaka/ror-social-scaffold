@@ -110,3 +110,4 @@ This project is [MIT](./LICENSE) licensed.
 * [devise gem](https://github.com/heartcombo/devise)
 * [rspec rails gem](https://github.com/rspec/rspec-rails)
 * [shoulda matchers gem](https://github.com/thoughtbot/shoulda-matchers)
+* [Rails guides](https://guides.rubyonrails.org/)
